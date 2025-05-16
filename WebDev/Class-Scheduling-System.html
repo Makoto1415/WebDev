@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Class Scheduling System</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fc;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    .time-select {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      align-items: center;
+    }
+
+    button {
+      padding: 12px 18px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    button.danger {
+      background: #dc3545;
+    }
+
+    button.danger:hover {
+      background: #b02a37;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+      word-break: break-word;
+    }
+
+    th {
+      background-color: #f1f3f5;
+    }
+
+    .actions {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    .csv-upload {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .csv-upload input[type="file"] {
+      border: 1px dashed #aaa;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    @media print {
+      button, .csv-upload, .form-group {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Class Scheduling System</h1>
+
+    <h2>Add Schedule Entry</h2>
+
+    <div class="form-group">
+      <label for="room">Room Type</label>
+      <select id="room">
+        <option>Regular Room</option>
+        <option>Computer Lab</option>
+        <option>HRS Lab</option>
+        <option>Welding Lab</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="student">Student Section / Course</label>
+      <input type="text" id="student" />
+    </div>
+
+    <div class="form-group">
+      <label for="faculty">Faculty</label>
+      <input type="text" id="faculty" />
+    </div>
+
+    <div class="form-group">
+      <label for="subject">Subject</label>
+      <input type="text" id="subject" />
+    </div>
+
+    <div class="form-group">
+      <label>Time Slot</label>
+      <div class="time-select">
+        <select id="startHour"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> <option>6</option> <option>7</option> <option>8</option> <option>9</option> <option>10</option> <option>11</option> <option>12</option> </select>
+        <select id="startMinute"> <option>00</option> <option>15</option> <option>30</option> <option>45</option> </select>
+        <select id="startPeriod"> <option>AM</option> <option>PM</option> </select>
+        <span>to</span>
+        <select id="endHour"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> <option>6</option> <option>7</option> <option>8</option> <option>9</option> <option>10</option> <option>11</option> <option>12</option> </select>
+        <select id="endMinute"> <option>00</option> <option>15</option> <option>30</option> <option>45</option> </select>
+        <select id="endPeriod"> <option>AM</option> <option>PM</option> </select>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button onclick="addSchedule()">Add to Schedule</button>
+      <button onclick="printSchedule()">Print Schedule</button>
+    </div>
+
+    <div class="csv-upload">
+      <label for="csvFile">Bulk Import via CSV:</label>
+      <input type="file" id="csvFile" accept=".csv" onchange="importCSV(this)">
+    </div>
+
+    <h2>Generated Schedule</h2>
+    <table id="scheduleTable">
+      <thead>
+        <tr>
+          <th>Room</th>
+          <th>Student</th>
+          <th>Faculty</th>
+          <th>Subject</th>
+          <th>Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    const schedule = [];
+
+    function getTimeString() {
+      const sh = document.getElementById('startHour').value;
+      const sm = document.getElementById('startMinute').value;
+      const sp = document.getElementById('startPeriod').value;
+      const eh = document.getElementById('endHour').value;
+      const em = document.getElementById('endMinute').value;
+      const ep = document.getElementById('endPeriod').value;
+      return `${sh}:${sm}${sp} - ${eh}:${em}${ep}`;
+    }
+
+    function timeToMinutes(hour, minute, period) {
+      hour = parseInt(hour);
+      minute = parseInt(minute);
+      if (period === 'PM' && hour !== 12) hour += 12;
+      if (period === 'AM' && hour === 12) hour = 0;
+      return hour * 60 + minute;
+    }
+
+    function parseTimeRange(time) {
+      const [start, end] = time.split(' - ');
+      const [sh, smp] = start.split(':');
+      const sm = smp.slice(0, 2);
+      const sp = smp.slice(2);
+      const [eh, emp] = end.split(':');
+      const em = emp.slice(0, 2);
+      const ep = emp.slice(2);
+      return {
+        start: timeToMinutes(sh, sm, sp),
+        end: timeToMinutes(eh, em, ep)
+      };
+    }
+
+    function saveToLocalStorage() {
+      localStorage.setItem('classSchedule', JSON.stringify(schedule));
+    }
+
+    function loadFromLocalStorage() {
+      const saved = localStorage.getItem('classSchedule');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        parsed.forEach(entry => schedule.push(entry));
+        renderSchedule();
+      }
+    }
+
+    function addSchedule(room, student, faculty, subject, time) {
+      room = room || document.getElementById('room').value;
+      student = student || document.getElementById('student').value.trim();
+      faculty = faculty || document.getElementById('faculty').value.trim();
+      subject = subject || document.getElementById('subject').value.trim();
+      time = time || getTimeString();
+
+      const newTime = parseTimeRange(time);
+      const conflict = schedule.find(entry => {
+        const existingTime = parseTimeRange(entry.time);
+        const overlap = newTime.start < existingTime.end && newTime.end > existingTime.start;
+        return overlap && (
+          entry.room === room ||
+          entry.faculty === faculty ||
+          entry.student === student
+        );
+      });
+
+      if (conflict) {
+        alert("Conflict: Overlapping schedule with same room, faculty, or student.");
+        return;
+      }
+
+      const entry = {
+        id: Date.now() + Math.random(),
+        room, student, faculty, subject, time
+      };
+
+      schedule.push(entry);
+      renderSchedule();
+      clearForm();
+      saveToLocalStorage();
+    }
+
+    function renderSchedule() {
+      const tbody = document.getElementById('scheduleTable').getElementsByTagName('tbody')[0];
+      tbody.innerHTML = "";
+      schedule.forEach(entry => {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+          <td>${entry.room}</td>
+          <td>${entry.student}</td>
+          <td>${entry.faculty}</td>
+          <td>${entry.subject}</td>
+          <td>${entry.time}</td>
+          <td class="actions">
+            <button onclick="editSchedule(${entry.id})">Edit</button>
+            <button class="danger" onclick="deleteSchedule(${entry.id})">Delete</button>
+          </td>
+        `;
+      });
+    }
+
+    function deleteSchedule(id) {
+      const index = schedule.findIndex(e => e.id === id);
+      if (index !== -1) {
+        schedule.splice(index, 1);
+        renderSchedule();
+        saveToLocalStorage();
+      }
+    }
+
+    function editSchedule(id) {
+      const entry = schedule.find(e => e.id === id);
+      if (!entry) return;
+
+      document.getElementById('room').value = entry.room;
+      document.getElementById('student').value = entry.student;
+      document.getElementById('faculty').value = entry.faculty;
+      document.getElementById('subject').value = entry.subject;
+
+      const [start, end] = entry.time.split(' - ');
+      const [sh, smp] = start.split(':');
+      const sm = smp.slice(0, 2);
+      const sp = smp.slice(2);
+      const [eh, emp] = end.split(':');
+      const em = emp.slice(0, 2);
+      const ep = emp.slice(2);
+
+      document.getElementById('startHour').value = sh;
+      document.getElementById('startMinute').value = sm;
+      document.getElementById('startPeriod').value = sp;
+      document.getElementById('endHour').value = eh;
+      document.getElementById('endMinute').value = em;
+      document.getElementById('endPeriod').value = ep;
+
+      deleteSchedule(id);
+    }
+
+    function clearForm() {
+      document.getElementById('student').value = "";
+      document.getElementById('faculty').value = "";
+      document.getElementById('subject').value = "";
+    }
+
+    function printSchedule() {
+      window.print();
+    }
+    
+    function importCSV(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const lines = e.target.result.split('\n').map(line => line.trim()).filter(Boolean);
+        lines.forEach((line, index) => {
+          const [room, student, faculty, subject, time] = line.split(',');
+          if (room && student && faculty && subject && time) {
+            addSchedule(room.trim(), student.trim(), faculty.trim(), subject.trim(), time.trim());
+          }
+        });
+        alert("CSV import complete!");
+      };
+      reader.readAsText(file);
+    }
+
+    window.onload = loadFromLocalStorage;
+  </script>
+</body>
+</html>
