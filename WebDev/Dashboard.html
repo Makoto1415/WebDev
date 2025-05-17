@@ -8,88 +8,82 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
+      font-family: Arial, sans-serif;
       margin: 0;
-      font-family: 'Poppins', sans-serif;
+      padding: 0;
       display: flex;
-      background-color: #f0f2f5;
+      background: linear-gradient(90deg, darkgreen 0%, green 100%);
     }
 
-    .sidebar {
-      width: 250px;
-      background: white;
+    nav {
+      width: 200px;
+      background-color: white;
+      height: 100vh;
       padding-top: 20px;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-      position: relative;
-      transition: width 0.3s;
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .sidebar.collapsed {
-      width: 70px;
+    .logo-container {
+      text-align: center;
+      padding: 10px;
     }
 
-    .sidebar img.logo {
-      width: 80px;
-      display: block;
-      margin: 0 auto 20px;
+    .logo-container img {
+      width: 120px; 
+      height: auto;
     }
 
-    .sidebar ul {
+    nav ul {
       list-style: none;
       padding: 0;
-    }
-
-    .sidebar ul li {
-      padding: 14px 25px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .sidebar ul li:hover,
-    .sidebar ul li.active {
-      background: #199f50;
-      color: #ffffff;
-      font-weight: 600;
-    }
-
-    .sidebar .logout {
-      position: absolute;
-      bottom: 20px;
       width: 100%;
-      padding: 14px 25px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
+      display: flex;   
+      flex-direction: column;  
+      flex-grow: 1;          
+    } 
+
+    nav ul li {
+      width: 100%;
     }
 
-    .toggle-btn {
-      position: absolute;
-      top: 10px;
-      right: -25px;
-      background: #199f50;
+    nav ul li button {
+      width: 100%;
+      background: none;
       border: none;
-      color: white;
-      width: 25px;
-      height: 25px;
-      border-radius: 50%;
+      color: black;
+      font-size: 16px;
+      padding: 15px;
       cursor: pointer;
+      text-align: left;
+    }
+
+    nav ul li button:hover {
+      background-color: darkgreen;
+      color: white;
+    }
+
+    nav ul li button img {
+      transition: filter 0.3s ease;
+    }
+
+    nav ul li button:hover img {
+      filter: brightness(0) invert(1);
+    }
+
+    nav ul li:last-child {
+      margin-top: auto;
     }
 
     .main {
-      flex: 1;
-      background: linear-gradient(90deg, #199f50 0%, #5ad47a 100%);
-      padding: 40px;
+      margin-left: 220px;
+      margin-top: 20px;
+      padding: 20px;
       color: white;
-      min-height: 100vh;
-      transition: margin-left 0.3s;
+      flex-grow: 1;
     }
 
     .main h1 {
@@ -173,7 +167,6 @@
 
     .activity {
       flex: 1;
-      border-left: 4px solid #199f50;
     }
 
     .activity h3{
@@ -182,7 +175,6 @@
 
     table {
       width: 100%;
-      border-collapse: collapse;
       margin-top: 5px;
     }
 
@@ -205,20 +197,18 @@
 </head>
 <body>
 
-  <div class="sidebar" id="sidebar">
-    <img src="./bpc.jpg" alt="Logo" class="logo" />
-    <button class="toggle-btn" onclick="toggleSidebar()">&#9776;</button>
-    <ul>
-      <li class="active" onclick="goTo('Dashboard.html')"><i class="fas fa-tachometer-alt"></i> Dashboard</li>
-      <li onclick="goTo('Manage-faculty.html')"><i class="fa-solid fa-user"></i> Manage Faculty</li>
-      <li onclick="goTo('Manage-students.html')"><i class="fa-solid fa-users"></i> Manage Students</li>
-      <li onclick="goTo('Manage-rooms.html')"><i class="fas fa-chalkboard-teacher"></i> Manage Rooms</li>
-      <li onclick="goTo('Manage-subjects.html')"><i class="fa-solid fa-book-open"></i> Manage Subjects</li>
-      <li onclick="goTo('Room-schedule.html')"><i class="fas fa-door-open"></i> Room Schedule</li>
-      <li onclick="goTo('Settings.html')"><i class="fas fa-door-open"></i> Settings</li>
-    </ul>
-    <div class="logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</div>
-  </div>
+  <nav>
+      <div class="logo-container"> <img src="http://bpc.edu.ph/wp-content/uploads/2024/12/LOGO-e1733733724127-160.png" alt="School Logo"> </div>
+      
+      <ul>
+        <li><a href="Dashboard.html"><button onclick="showTab('dashboard')"><i class="fas fa-home"></i> Dashboard</button></a></li>
+        <li><a href="Manage-faculty.html"><button onclick="showTab('manage-faculty')"><i class="fa-solid fa-user"></i> Manage Faculty</button></a></li>
+        <li><a href="manage-students.html"><button onclick="showTab('manage-students')"><i class="fa-solid fa-users"></i> Manage Student</button></a></li>
+        <li><a href="Manage-rooms.html"><button onclick="showTab('manage-room')"><i class="fas fa-chalkboard-teacher"></i> Manage Room</button></a></li>
+        <li><a href="Manage-subjects.html"><button onclick="showTab('manage-subject')"><i class="fa-solid fa-book-open"></i> Manage Subject</button></a></li>
+        <li><a href=""><button onclick="logout('')"><i class="fas fa-power-off"></i> Logout</button></a></li>
+  </nav>
+
 
   <div class="main">
     <h1>Welcome to the Class Scheduling System</h1>
@@ -303,10 +293,6 @@
   </div>
 
   <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('collapsed');
-    }
-
     function goTo(page) {
       window.location.href = page;
     }
