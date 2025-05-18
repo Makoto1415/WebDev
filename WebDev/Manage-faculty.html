@@ -33,7 +33,7 @@
     }
 
     .logo-container img {
-      width: 120px; 
+      width: 120px;
       height: auto;
     }
 
@@ -41,10 +41,10 @@
       list-style: none;
       padding: 0;
       width: 100%;
-      display: flex;   
-      flex-direction: column;  
-      flex-grow: 1;          
-    } 
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
 
     nav ul li {
       width: 100%;
@@ -64,6 +64,12 @@
     nav ul li button:hover {
       background-color: darkgreen;
       color: white;
+    }
+
+    nav ul li button.active {
+      background-color: darkgreen;
+      color: white;
+      font-weight: bold;
     }
 
     nav ul li button img {
@@ -110,7 +116,7 @@
       position: relative;
     }
 
-    .admin-info {
+    .admininfo {
       display: flex;
       flex-direction: column;
       font-size: 18px;
@@ -139,6 +145,7 @@
       align-items: center;
       flex-wrap: wrap;
       margin-top: 30px;
+      margin-right: 25px;
       gap: 10px;
     }
 
@@ -150,13 +157,12 @@
       margin: 20px 0;
       justify-content: flex-end;
       display: flex;
-      gap: 30px;  
+      gap: 30px;
       flex-wrap: wrap;
       align-items: center;
     }
 
     .filter-bar input,
-    .filter-bar select,
     .filter-bar button {
       padding: 10px 15px;
       border-radius: 8px;
@@ -166,13 +172,13 @@
 
     #facultyList {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* Fixed to 3 columns */
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       padding: 20px;
     }
 
     .faculty-card {
-      display: flex; /* Image and text side-by-side */
+      display: flex;
       align-items: center;
       background: white;
       border: 1px solid black;
@@ -198,63 +204,61 @@
 
     .faculty-card h3 {
       margin: 0;
-      font-size: 18px; /* Name: slightly bigger */
+      font-size: 18px;
       font-weight: bold;
     }
 
     .faculty-card p {
       margin: 2px 0;
       color: #666;
-      font-size: 13px; /* Subject: smaller */
+      font-size: 13px;
     }
 
     .faculty-card a {
-      margin-top: 6px; /* Small space before View Profile */
+      margin-top: 6px;
       color: #6a0dad;
-      font-size: 14px; /* Medium size */
+      font-size: 14px;
       font-weight: 500;
       text-decoration: none;
     }
-
   </style>
 </head>
 <body>
 
-   <nav>
-      <div class="logo-container"> <img src="http://bpc.edu.ph/wp-content/uploads/2024/12/LOGO-e1733733724127-160.png" alt="School Logo"> </div>
-      
-      <ul>
-        <li><a href="Dashboard.html"><button onclick="showTab('dashboard')"><i class="fas fa-home"></i> Dashboard</button></a></li>
-        <li><a href="Manage-faculty.html"><button onclick="showTab('manage-faculty')"><i class="fa-solid fa-user"></i> Manage Faculty</button></a></li>
-        <li><a href="manage-students.html"><button onclick="showTab('manage-students')"><i class="fa-solid fa-users"></i> Manage Student</button></a></li>
-        <li><a href="Manage-rooms.html"><button onclick="showTab('manage-room')"><i class="fas fa-chalkboard-teacher"></i> Manage Room</button></a></li>
-        <li><a href="Manage-subjects.html"><button onclick="showTab('manage-subject')"><i class="fa-solid fa-book-open"></i> Manage Subject</button></a></li>
-        <li><a href=""><button onclick="logout('')"><i class="fas fa-power-off"></i> Logout</button></a></li>
+  <nav>
+    <div class="logo-container">
+      <img src="http://bpc.edu.ph/wp-content/uploads/2024/12/LOGO-e1733733724127-160.png" alt="School Logo">
+    </div>
+    <ul>
+      <li><a href="Dashboard.html"><button><i class="fas fa-home"></i> Dashboard</button></a></li>
+      <li><a href="Manage-faculty.html"><button class="active"><i class="fa-solid fa-user"></i> Manage Faculty</button></a></li>
+      <li><a href="manage-students.html"><button><i class="fa-solid fa-users"></i> Manage Student</button></a></li>
+      <li><a href="Manage-rooms.html"><button><i class="fas fa-chalkboard-teacher"></i> Manage Room</button></a></li>
+      <li><a href="Manage-subjects.html"><button><i class="fa-solid fa-book-open"></i> Manage Subject</button></a></li>
+      <li><a href="Class-Scheduling-System-Login.html"><button><i class="fas fa-power-off"></i> Logout</button></a></li>
+    </ul>
   </nav>
-  
-  <div class="main">
 
+  <div class="main">
     <div class="top-right">
-    <div class="notification">
-      <i class="fas fa-bell"></i>
+      <div class="notification">
+        <i class="fas fa-bell"></i>
+      </div>
+      <div class="admininfo" id="adminInfo">
+        <div class="admin-name" id="adminName"></div>
+        <div class="admin-role" id="adminRole"></div>
+      </div>
+      <div class="profile-icon" onclick="goToSettings()">
+        <i class="fas fa-user-circle"></i>
+      </div>
     </div>
-    <div class="admin-info">
-      <div class="admin-name">Maureen Dela Cruz</div>
-      <div class="admin-role">Admin</div>
-    </div>
-    <div class="profile-icon">
-      <i class="fas fa-user-circle"></i>
-    </div>
-  </div>
 
     <h1>Faculty</h1>
     <div class="instructor-header">
       <h2><i class="fas fa-user"></i> Instructors</h2>
       <div class="filter-bar">
         <input type="text" id="searchInput" placeholder="Search here..." />
-        <select id="subjectFilter">
-          <option value="All">All Subjects</option>
-        </select>
+        <button onclick="goTo('Manage-subjects.html')">Manage Subjects</button>
       </div>
     </div>
 
@@ -262,20 +266,30 @@
   </div>
 
   <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('collapsed');
-    }
-
     function goTo(page) {
       window.location.href = page;
     }
 
     function logout() {
       alert("Logging out...");
-      location.href = 'Class-Scheduling-System-Login.html'; 
+      location.href = 'Class-Scheduling-System-Login.html';
     }
 
-    // Sample Static Data
+    function goToSettings() {
+      window.location.href = "Settings.html";
+    }
+
+    const userInfo = {
+      name: "Maureen Dela Cruz",
+      email: "maureendc.@gmail.com",
+      role: "MIS President",
+      department: "Information Technology",
+      contact: "0917-123-4567",
+    };
+
+    document.getElementById("adminName").textContent = userInfo.name;
+    document.getElementById("adminRole").textContent = userInfo.role;
+
     const instructors = [
       { name: 'Chelsea Robles', subject: 'IS-FIS', image: './instructor.png', id: 1 },
       { name: 'Luke Santos', subject: 'CC-CP', image: './instructor.png', id: 2 },
@@ -292,20 +306,15 @@
       { name: 'Angel Santos', subject: 'CT-WD', image: './instructor.png', id: 13 },
       { name: 'Charles Mendoza', subject: 'CT-OOP', image: './instructor.png', id: 14 },
       { name: 'Feliciano Garcia', subject: 'PATHFIT', image: './instructor.png', id: 15 },
-
     ];
 
-    const itemsPerPage = 9;
-    let currentPage = 1;
-
     function renderFaculty() {
-      const search = document.getElementById('searchInput').value.toLowerCase();
-      const filter = document.getElementById('subjectFilter').value;
-
-      const filtered = instructors.filter(f =>
-        (f.name.toLowerCase().includes(search)) &&
-        (filter === 'All' || f.subject === filter)
-      );
+      const search = document.getElementById('searchInput').value.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const filtered = instructors.filter(f => {
+        const name = f.name.toLowerCase();
+        const subject = f.subject.toLowerCase().replace(/[^a-z0-9]/g, '');
+        return name.includes(search) || subject.includes(search);
+      });
 
       document.getElementById('facultyList').innerHTML = filtered.map(f => `
         <div class="faculty-card">
@@ -319,44 +328,7 @@
       `).join('');
     }
 
-
-    function renderPagination(totalItems) {
-      const pageCount = Math.ceil(totalItems / itemsPerPage);
-      const pagination = document.getElementById('pagination');
-      pagination.innerHTML = '';
-
-      for (let i = 1; i <= pageCount; i++) {
-        pagination.innerHTML += `
-          <button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>
-        `;
-      }
-    }
-
-    function changePage(page) {
-      currentPage = page;
-      renderFaculty();
-    }
-
-    function populateSubjects() {
-      const subjects = [...new Set(instructors.map(f => f.subject))];
-      const dropdown = document.getElementById('subjectFilter');
-      subjects.forEach(subject => {
-        dropdown.innerHTML += `<option value="${subject}">${subject}</option>`;
-      });
-    }
-
-    document.getElementById('searchInput').addEventListener('input', () => {
-      currentPage = 1;
-      renderFaculty();
-    });
-
-    document.getElementById('subjectFilter').addEventListener('change', () => {
-      currentPage = 1;
-      renderFaculty();
-    });
-
-    // Initial load
-    populateSubjects();
+    document.getElementById('searchInput').addEventListener('input', renderFaculty);
     renderFaculty();
   </script>
 </body>
