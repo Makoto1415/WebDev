@@ -11,6 +11,7 @@
       box-sizing: border-box;
       font-family: Arial, sans-serif;
     }
+    
     body, html {
       height: 100%;
       background: linear-gradient(to right, #4CAF50, #A5D6A7);
@@ -25,8 +26,8 @@
       background-color: white;
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
     }
+
     .left, .right {
       flex: 1;
       padding: 40px;
@@ -147,7 +148,7 @@
 
   <script>
     function login() {
-      const email = document.getElementById("email").value;
+      const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
 
       if (!email || !password) {
@@ -155,9 +156,17 @@
         return;
       }
 
-        alert(`Logging in as: ${email}`);
-        window.location.href = 'Dashboard.html';
+      const storedUser = JSON.parse(localStorage.getItem('registeredUser'));
+
+      if (!storedUser || storedUser.email !== email || storedUser.password !== password) {
+        alert("Invalid email or password.");
+        return;
       }
+
+      alert(`Welcome back, ${storedUser.name}!`);
+      window.location.href = 'Dashboard.html';
+    }
+
 
       function register() {
         window.location.href = 'Class-Scheduling-System-Register.html';
