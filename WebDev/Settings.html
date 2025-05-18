@@ -3,139 +3,385 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class Scheduling Dashboard</title>
+  <title>Settings</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
+      font-family: Arial, sans-serif;
       margin: 0;
-      font-family: 'Poppins', sans-serif;
+      padding: 0;
       display: flex;
-      background-color: #f0f2f5;
+      background: linear-gradient(90deg, darkgreen 0%, green 100%);
     }
 
-    .sidebar {
-      width: 250px;
-      background: white;
+    nav {
+      width: 200px;
+      background-color: white;
+      height: 100vh;
       padding-top: 20px;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-      position: relative;
-      transition: width 0.3s;
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .sidebar.collapsed {
-      width: 70px;
+    .logo-container {
+      text-align: center;
+      padding: 10px;
     }
 
-    .sidebar img.logo {
-      width: 80px;
-      display: block;
-      margin: 0 auto 20px;
+    .logo-container img {
+      width: 120px;
+      height: auto;
     }
 
-    .sidebar ul {
+    nav ul {
       list-style: none;
       padding: 0;
-    }
-
-    .sidebar ul li {
-      padding: 14px 25px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .sidebar ul li:hover,
-    .sidebar ul li.active {
-      background: #199f50;
-      color: #ffffff;
-      font-weight: 600;
-    }
-
-    .sidebar .logout {
-      position: absolute;
-      bottom: 20px;
       width: 100%;
-      padding: 14px 25px;
       display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
+      flex-direction: column;
+      flex-grow: 1;
     }
 
-    .toggle-btn {
-      position: absolute;
-      top: 10px;
-      right: -25px;
-      background: #199f50;
+    nav ul li {
+      width: 100%;
+    }
+
+    nav ul li button {
+      width: 100%;
+      background: none;
       border: none;
-      color: white;
-      width: 25px;
-      height: 25px;
-      border-radius: 50%;
+      color: black;
+      font-size: 16px;
+      padding: 15px;
       cursor: pointer;
+      text-align: left;
+    }
+
+    nav ul li button:hover {
+      background-color: darkgreen;
+      color: white;
+    }
+
+    nav ul li button.active {
+      background-color: darkgreen;
+      color: white;
+      font-weight: bold;
+    }
+
+    nav ul li:last-child {
+      margin-top: auto;
     }
 
     .main {
-      flex: 1;
-      background: linear-gradient(90deg, #199f50 0%, #5ad47a 100%);
-      padding: 40px;
+      margin-left: 200px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 50px 20px;
+      box-sizing: border-box;
+    }
+
+    .settings-container {
+      background: white;
+      padding: 25px 35px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 850px;
+      color: black;
+      font-family: Arial, sans-serif;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 25px;
+      border-bottom: 2px solid black;
+      margin-bottom: 80px;
+      font-weight: bold;
+    }
+
+    .tab {
+      padding-bottom: 10px;
+      cursor: pointer;
+      color: #aaa;
+    }
+
+    .tab.active {
+      color: black;
+      border-bottom: 2px solid black;
+    }
+
+    .profile-card {
+      display: flex;
+      align-items: center;
+      background: #fefefe;
+      border: 1px solid black;
+      border-radius: 8px;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      padding: 15px 20px;
+      margin: 25px;
+      margin-bottom: 55px;
+      gap: 20px;
+    }
+
+    .profile-icon {
+      background: white;
+      border-radius: 50%;
+      padding: 14px 16px;
+      display: flex;
+      border: 1px solid #ccc;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);;
+    }
+
+    .profile-details {
+      flex-grow: 1;
+      font-size: 14px;
+    }
+
+    .name {
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .email {
+      font-size: 13px;
+      color: #555;
+    }
+
+    .edit-btn {
+      background: #3f8f57;
+      border: none;
       color: white;
-      min-height: 100vh;
-      transition: margin-left 0.3s;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
-    .main h1 {
-      font-size: 36px;
-      margin-top: 1px;
+    .info-box {
+      background: #fdfdfd;
+      border: 1px solid black;
+      border-radius: 8px;
+      margin: 25px;
+      margin-bottom: 50px;
+      padding: 25px 30px;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
 
-    </style>
+    .info-box h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px 40px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 8px;
+      background: #fdfce9;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .main {
+        margin-left: 200px;
+        padding: 20px 10px;
+      }
+
+      .settings-container {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <div class="sidebar" id="sidebar">
-    <img src="./bpc.jpg" alt="Logo" class="logo" />
-    <button class="toggle-btn" onclick="toggleSidebar()">&#9776;</button>
+  <nav>
+    <div class="logo-container">
+      <img src="http://bpc.edu.ph/wp-content/uploads/2024/12/LOGO-e1733733724127-160.png" alt="School Logo">
+    </div>
     <ul>
-      <li onclick="goTo('Dashboard.html')"><i class="fas fa-tachometer-alt"></i> Dashboard</li>
-      <li onclick="goTo('Manage-faculty.html')"><i class="fa-solid fa-user"></i> Manage Faculty</li>
-      <li onclick="goTo('Manage-students.html')"><i class="fa-solid fa-users"></i> Manage Students</li>
-      <li onclick="goTo('Manage-rooms.html')"><i class="fas fa-chalkboard-teacher"></i> Manage Rooms</li>
-      <li onclick="goTo('Manage-subjects.html')"><i class="fa-solid fa-book-open"></i> Manage Subjects</li>
-      <li onclick="goTo('Room-schedule.html')"><i class="fas fa-door-open"></i> Room Schedule</li>
-      <li class="active" onclick="goTo('Settings.html')"><i class="fas fa-cog"></i> Settings</li>
+      <li><a href="Dashboard.html"><button><i class="fas fa-home"></i> Dashboard</button></a></li>
+      <li><a href="Manage-faculty.html"><button><i class="fa-solid fa-user"></i> Manage Faculty</button></a></li>
+      <li><a href="manage-students.html"><button><i class="fa-solid fa-users"></i> Manage Student</button></a></li>
+      <li><a href="Manage-rooms.html"><button><i class="fas fa-chalkboard-teacher"></i> Manage Room</button></a></li>
+      <li><a href="Manage-subjects.html"><button><i class="fa-solid fa-book-open"></i> Manage Subject</button></a></li>
+      <li><a href="Class-Scheduling-System-Login.html"><button><i class="fas fa-power-off"></i> Logout</button></a></li>
     </ul>
-    <div class="logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</div>
-  </div>
+  </nav>
 
   <div class="main">
-    <h1>Welcome to the Class Scheduling System</h1>
+    <div class="settings-container">
+      <div class="tabs">
+      <span class="tab active" data-tab="account">Account</span>
+      <span class="tab" data-tab="notification">Notification</span>
+      <span class="tab" data-tab="security">Security</span>
+    </div>
+
+    <div class="tab-content" id="account">
+      <div class="profile-card">
+        <div class="profile-icon">
+          <i class="fas fa-user fa-2x"></i>
+        </div>
+        <div class="profile-details">
+          <div class="name">Maureen Dela Cruz</div>
+          <div class="email">maureendc.@gmail.com</div>
+        </div>
+        <button class="edit-btn" id="editBtn">
+          Edit <i class="fas fa-pen"></i>
+        </button>
+      </div>
+
+      <div class="info-box">
+        <h3>Personal Information</h3>
+        <div class="info-grid">
+          <div class="field">
+            <label>First Name</label>
+            <input type="text" value="Maureen" readonly />
+          </div>
+          <div class="field">
+            <label>Last Name</label>
+            <input type="text" value="Dela Cruz" readonly />
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" value="maureen.dc@bpc.edu.ph" readonly />
+          </div>
+          <div class="field">
+            <label>Position</label>
+            <input type="text" value="MIS President" readonly />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="notification" style="display: none;">
+      <p>Notification settings go here.</p>
+    </div>
+
+    <div class="tab-content" id="security" style="display: none;">
+      <p>Security settings go here.</p>
+    </div>
+
+  <script>
+
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          contents.forEach(c => c.style.display = 'none');
+          tab.classList.add('active');
+          const target = tab.getAttribute('data-tab');
+          document.getElementById(target).style.display = 'block';
+        });
+      });
+
+      const editBtn = document.getElementById('editBtn');
+      const profileCard = document.querySelector('.profile-card');
+      const infoBox = document.querySelector('.info-box');
+
+      let isEditing = false;
+
+      const originalValues = {
+        firstName: infoBox.querySelectorAll('input')[0].value,
+        lastName: infoBox.querySelectorAll('input')[1].value,
+        email: infoBox.querySelectorAll('input')[2].value,
+        position: infoBox.querySelectorAll('input')[3].value,
+      };
+
+      editBtn.addEventListener('click', () => {
+        if (!isEditing) {
+          isEditing = true;
+          profileCard.innerHTML = `
+            <div class="profile-icon">
+              <i class="fas fa-user fa-2x"></i>
+            </div>
+            <div class="profile-details">
+              <div class="name">Edit Profile Picture</div>
+            </div>
+            <div style="margin-left: auto; display: flex; gap: 10px;">
+              <button id="cancelBtn" class="edit-btn" style="background-color: grey;">Cancel</button>
+              <button id="saveBtn" class="edit-btn">Save</button>
+            </div>
+          `;
+
+          infoBox.querySelectorAll('input').forEach(input => {
+            input.readOnly = false;
+            input.style.backgroundColor = '#fff';
+          });
+
+          document.getElementById('cancelBtn').addEventListener('click', () => {
+            const inputs = infoBox.querySelectorAll('input');
+            inputs[0].value = originalValues.firstName;
+            inputs[1].value = originalValues.lastName;
+            inputs[2].value = originalValues.email;
+            inputs[3].value = originalValues.position;
+            exitEditMode();
+          });
+
+          document.getElementById('saveBtn').addEventListener('click', () => {
+            const inputs = infoBox.querySelectorAll('input');
+            originalValues.firstName = inputs[0].value;
+            originalValues.lastName = inputs[1].value;
+            originalValues.email = inputs[2].value;
+            originalValues.position = inputs[3].value;
+            alert('Changes saved (demo only)');
+            exitEditMode();
+          });
+        }
+      });
+
+      function exitEditMode() {
+        isEditing = false;
+        profileCard.innerHTML = `
+          <div class="profile-icon">
+            <i class="fas fa-user fa-2x"></i>
+          </div>
+          <div class="profile-details">
+            <div class="name">${originalValues.firstName} ${originalValues.lastName}</div>
+            <div class="email">${originalValues.email}</div>
+          </div>
+          <button class="edit-btn" id="editBtn">Edit <i class="fas fa-pen"></i></button>
+        `;
+        infoBox.querySelectorAll('input').forEach(input => {
+          input.readOnly = true;
+          input.style.backgroundColor = '#fdfce9';
+        });
+        document.getElementById('editBtn').addEventListener('click', () => editBtn.click());
+      }
 
 
-
-  </div>
-
-<script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('collapsed');
-    }
-
-    function goTo(page) {
-      window.location.href = page;
-    }
-
-    function logout() {
-      alert("Logging out...");
-      location.href = 'Class-Scheduling-System-Login.html'; 
-    }
   </script>
+
 </body>
 </html>
