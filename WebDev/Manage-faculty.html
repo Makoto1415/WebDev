@@ -33,7 +33,7 @@
     }
 
     .logo-container img {
-      width: 120px;
+      width: 120px; 
       height: auto;
     }
 
@@ -41,10 +41,10 @@
       list-style: none;
       padding: 0;
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
+      display: flex;   
+      flex-direction: column;  
+      flex-grow: 1;          
+    } 
 
     nav ul li {
       width: 100%;
@@ -86,15 +86,9 @@
 
     .main {
       margin-left: 220px;
-      margin-top: 20px;
       padding: 20px;
       color: white;
       flex-grow: 1;
-    }
-
-    .main h1 {
-      font-size: 36px;
-      margin-top: 1px;
     }
 
     .page-header {
@@ -112,20 +106,20 @@
     }
 
     .top-right {
-      position: absolute;
-      top: 40px;
-      right: 40px;
       display: flex;
       align-items: center;
+      justify-content: flex-end;
       gap: 15px;
       color: white;
+      padding-top: 40px;
       font-weight: 600;
       font-family: 'Poppins', sans-serif;
+      margin-bottom: 20px;
     }
 
     .add-subject-btn {
-      background: white;
-      color: green;
+      background: #D9D9D9;
+      color: black;
       border: none;
       padding: 10px 15px;
       border-radius: 5px;
@@ -141,12 +135,13 @@
       position: relative;
     }
 
-    .admininfo {
+    .admin-info {
       display: flex;
       flex-direction: column;
       font-size: 18px;
       text-align: right;
       line-height: 1.1;
+      padding-top:40px;
     }
 
     .admin-name {
@@ -166,16 +161,15 @@
 
     table {
       width: 100%;
-      table-layout: fixed;
       background: rgba(255, 255, 255, 0.1);
-      text-align: center;
       border-radius: 10px;
       color: white;
       border-spacing: 0;
+      table-layout: fixed;
     }
 
     th, td {
-      padding: 15px 12px;
+      padding: 20px 16px;
       text-align: left;
     }
 
@@ -186,15 +180,7 @@
 
     td {
       font-size: 15px;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    td:nth-child(2) {
-      width: 35%;
-    }
-
-    td:nth-child(4) {
-      width: 25%;
+      border-top: none; 
     }
 
     .action-buttons {
@@ -202,25 +188,48 @@
       gap: 5px;
     }
 
-    .edit-btn {
-      background: orange;
-      color: white;
+    .edit-btn, .delete-btn, .preview-btn {
       border: none;
-      padding: 5px 10px;
       border-radius: 4px;
       cursor: pointer;
+      padding: 8px 10px;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 50px;
+    }
+
+    .edit-btn {
+      background: orange;
+      color: black;
+    }
+
+    .edit-btn img {
+      width: 15px;
+      height: 15px;
+      margin-bottom: 5px;
+      filter: brightness(0) invert(1);
     }
 
     .delete-btn {
       background: red;
       color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 4px;
-      cursor: pointer;
     }
 
-    #facultyModal {
+    .delete-btn i {
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .preview-btn {
+      background: white;
+      color: darkblue;
+    }
+
+    #facultyModal, #previewModal, #deleteModal, #importModal {
       display: none;
       position: fixed;
       z-index: 1000;
@@ -235,13 +244,15 @@
     }
 
     .modal-content {
-      background-color: #eeeeee; 
-      border-radius: 16px;
-      padding: 30px;
-      width: 380px;
-      max-width: 90%;
+      background-color: #D9D9D9;
+      color: black;
+      border-radius: 15px;
+      padding: 50px;
+      width: 350px;
+      max-width: 100%;
       box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.3);
       animation: popIn 0.25s ease-out;
+      align-items: center;
     }
 
     @keyframes popIn {
@@ -256,7 +267,7 @@
     }
 
     .modal-content h2 {
-      background-color:#eeeeee;
+      background-color:#D9D9D9;
       margin-top: 0;
       margin-bottom: 20px;
       font-size: 22px;
@@ -267,14 +278,13 @@
 
     .modal-content label {
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 790;
       color: #333;
       display: block;
       margin-bottom: 4px;
     }
 
-    .modal-content input,
-    .modal-content select {
+    .modal-content input {
       width: 100%;
       padding: 10px 12px;
       margin-bottom: 15px;
@@ -283,6 +293,21 @@
       border-radius: 8px;
       outline: none;
       transition: border 0.2s;
+      background-color: #D9D9D9;
+      box-shadow: 1px 1px;
+    }
+
+    .modal-content select {
+      width: 107%;
+      padding: 10px 12px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: border 0.2s;
+      background-color: #D9D9D9;
+      box-shadow: 1px 1px;
     }
 
     .modal-content input:focus,
@@ -292,28 +317,36 @@
 
     .modal-actions {
       display: flex;
-      justify-content: flex-end;
-      gap: 10px;
+      justify-content: center; 
+      gap: 20px; 
+      margin-top: 20px;
     }
 
     .modal-actions button {
-      padding: 8px 16px;
-      font-size: 14px;
+      padding: 18px 30px;
+      font-size: 16px;
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
+      width: 140px;
+      border-radius: 10px;
       font-weight: 600;
+      cursor: pointer;
       transition: background 0.2s;
     }
 
+    .action-buttons i {
+      margin-right: 10px;
+    }
+
     .modal-actions .cancel-btn {
-      background-color: #e0e0e0;
+      background-color: #B2B2B2;
       color: #333;
+      width: 140px; /* Match width with save-btn */
     }
 
     .modal-actions .save-btn {
       background-color: #28a745;
       color: white;
+      width: 140px;
     }
 
     .modal-actions .cancel-btn:hover {
@@ -324,89 +357,157 @@
       background-color: #218838;
     }
 
-    @media screen and (max-width: 768px) {
-      .main {
-        margin-left: 0;
-        padding-top: 70px;
-      }
-      
-      nav {
-        width: 100%;
-        height: auto;
-        position: fixed;
-        top: 0;
-        flex-direction: row;
-        padding: 10px;
-        z-index: 100;
-      }
-      
-      nav ul {
-        flex-direction: row;
-        flex-wrap: wrap;
-      }
-      
-      nav ul li {
-        width: auto;
-      }
-      
-      .page-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-      
-      table, thead, tbody, th, td, tr {
-        display: block;
-      }
-      
-      thead tr {
-        display: none;
-      }
-      
-      td {
-        padding: 10px;
-        position: relative;
-      }
-      
-      td::before {
-        content: attr(data-label);
-        font-weight: bold;
-        display: block;
-      }
+    .delete-modal {
+      background: #D9D9D9;
+      padding: 30px 40px;
+      border-style: solid;
+      border-color: black;
+      text-align: center;
+      width: 350px;
+      box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.3);
     }
 
-    </style>
+    .delete-modal-text {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      color: #1a1a1a;
+    }
+
+    .delete-modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .modal-btn {
+      background-color: #1a1a1a;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* Import Modal Styles */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .import-modal {
+      background: #fff;
+      color: #000;
+      padding: 20px 30px;
+      border-radius: 12px;
+      width: 300px;
+      text-align: left;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      font-family: Arial, sans-serif;
+    }
+
+    .import-modal h2 {
+      margin-top: 0;
+      font-size: 20px;
+      text-align: left;
+    }
+
+    .file-input {
+      margin: 15px 0;
+      border: 2px solid #333;
+      border-bottom: 3px solid #333; /* thicker bottom border for "_____" effect */
+      border-radius: 8px;
+      padding: 12px 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      box-sizing: border-box;
+      color: #333;
+      font-weight: 600;
+      text-align: left;
+      user-select: none;
+      min-height: 40px;
+    }
+
+    .file-input input[type="file"] {
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .status {
+      margin: 15px 0;
+      font-size: 14px;
+      color: #444;
+      display: none;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #333;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
 
   <nav>
     <div class="logo-container">
-      <img src="http://bpc.edu.ph/wp-content/uploads/2024/12/LOGO-e1733733724127-160.png" alt="School Logo">
+      <img src="http://bpc.edu.ph/wp-content/uploads/2024/12/LOGO-e1733733724127-160.png" alt="School Logo" />
     </div>
     <ul>
       <li><a href="Dashboard.html"><button><i class="fas fa-home"></i> Dashboard</button></a></li>
-      <li><a href="Manage-faculty.html"><button class="active"><i class="fa-solid fa-user"></i> Manage Faculty</button></a></li>
-      <li><a href="manage-students.html"><button><i class="fa-solid fa-users"></i> Manage Student</button></a></li>
-      <li><a href="Manage-rooms.html"><button><i class="fas fa-chalkboard-teacher"></i> Manage Room</button></a></li>
-      <li><a href="Manage-subjects.html"><button><i class="fa-solid fa-book-open"></i> Manage Subject</button></a></li>
-      <li><a href="Class-Scheduling-System-Login.html"><button><i class="fas fa-power-off"></i> Logout</button></a></li>
+      <li><a href="Manage-Faculty.html"><button class="active"><i class="fa-solid fa-user"></i> Manage Faculty</button></a></li>
+      <li><a href="manage-Sections.html"><button><i class="fas fa-columns"></i> Manage Sections</button></a></li>
+      <li><a href="Manage-Rooms.html"><button><i class="fas fa-chalkboard-teacher"></i> Manage Room</button></a></li>
+      <li><a href="Manage-Subjects.html"><button><i class="fa-solid fa-book-open"></i> Manage Subject</button></a></li>
+      <li><a href="User  -Management.html"><button><i class="fas fa-user-friends"></i> User Management</button></a></li>
+      <li><a href="Login.html"><button><i class="fas fa-power-off"></i> Logout</button></a></li>
     </ul>
   </nav>
 
-  <!-- Main Section -->
   <div class="main">
     <div class="top-right">
       <div class="notification"><i class="fas fa-bell"></i></div>
       <div class="admininfo">
         <div class="admin-name">Maureen Dela Cruz</div>
-        <div class="admin-role">MIS President</div>
+        <div class="admin-role">VVPA</div>
       </div>
       <div class="profile-icon" onclick="goToSettings()"><i class="fas fa-user-circle"></i></div>
     </div>
 
-    <h1>Faculty</h1>
     <div class="page-header">
-      <button onclick="openModal()" class="add-subject-btn">+ Add Faculty</button>
+      <h1>Faculty</h1>
+      <div class="button-group">
+        <button onclick="openModal()" class="add-subject-btn">+ Add Faculty</button>
+        <button onclick="openImportModal()" class="add-subject-btn">Import Files</button>
+      </div>
     </div>
 
     <table id="facultysTable">
@@ -415,8 +516,6 @@
           <th>ID</th>
           <th>Name</th>
           <th>Type</th>
-          <th>Available Days</th>
-          <th>Available Time</th>
           <th>Subjects</th>
           <th>Actions</th>
         </tr>
@@ -424,62 +523,76 @@
       <tbody id="facultysBody"></tbody>
     </table>
 
-    <!-- Modal -->
     <div id="facultyModal">
-  <div class="modal-content">
-    <h2 id="modalTitle">Add Faculty</h2>
-    <label>ID</label>
-    <input id="facultyID" type="text" readonly>
+      <div class="modal-content">
+        <h2 id="modalTitle">Add Faculty</h2>
 
-    <label for="facultyName">Name</label>
-    <input id="facultyName" placeholder="Enter Name" />
+        <input id="facultyID" type="hidden" />
 
-    <label for="facultyType">Type</label>
-    <select id="facultyType">
-      <option disabled selected>Select Type</option>
-      <option>Full Time</option>
-      <option>Part Time</option>
-    </select>
+        <label for="facultyName">Name</label>
+        <input id="facultyName" placeholder="Enter Name" />
 
-    <label for="availDays">Available Days</label>
-    <select id="availDays">
-      <option disabled selected>Select Day</option>
-      <option>Monday</option>
-      <option>Tuesday</option>
-      <option>Wednesday</option>
-      <option>Thursday</option>
-      <option>Friday</option>
-      <option>Saturday</option>
-    </select>
+        <label for="facultyType">Type</label>
+        <select id="facultyType">
+          <option disabled selected>Select Type</option>
+          <option>Full Time</option>
+          <option>Part Time</option>
+        </select>
 
-    <label for="availTime">Available Time</label>
-    <select id="availTime">
-      <option disabled selected>Select Time</option>
-      <option>7:00 AM - 10:00 PM</option>
-      <option>10:00 PM - 1:00 PM</option>
-      <option>1:00 PM - 2:30 PM</option>
-      <option>2:30 PM - 5:30 PM</option>
-      <option>5:30 PM - 8:30 PM</option>
-    </select>
+        <label for="facultySubjects">Subject Code</label>
+        <input id="facultySubjects" placeholder="Enter Subject Code" />
 
-    <label for="facultySubjects">Subject Code</label>
-    <input id="facultySubjects" placeholder="Enter Subject Code" />
+        <div class="modal-actions">
+          <button class="save-btn" onclick="saveFaculty()">Save</button>
+          <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
 
-    <div class="modal-actions">
-      <button class="cancel-btn" onclick="closeModal()">Cancel</button>
-      <button class="save-btn" onclick="saveFaculty()">Save</button>
+    <div id="previewModal">
+      <div class="modal-content">
+        <h2>Faculty Preview</h2>
+        <p><strong>ID:</strong> <span id="previewID"></span></p>
+        <p><strong>Name:</strong> <span id="previewName"></span></p>
+        <p><strong>Type:</strong> <span id="previewType"></span></p>
+        <p><strong>Subjects:</strong> <span id="previewSubjects"></span></p>
+        <div class="modal-actions">
+          <button class="cancel-btn" onclick="closePreview()">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="deleteModal" class="modal-overlay">
+      <div class="delete-modal">
+        <p class="delete-modal-text">Are you sure you want to delete this faculty member?</p>
+        <div class="delete-modal-actions">
+          <button onclick="confirmDelete()" class="modal-btn">Yes</button>
+          <button onclick="closeDeleteModal()" class="modal-btn">Back</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="importModal">
+      <div class="import-modal">
+        <h2>Import Files</h2>
+        <label class="file-input">
+          Choose a file
+          <input type="file" id="importFileInput" />
+        </label>
+        <div class="status" id="importStatus">
+          <span class="spinner"></span> Importing file . . .
+        </div>
+        <div class="modal-actions">
+          <button class="cancel-btn" id="closeImportModalBtn">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-  <!-- Script Section -->
   <script>
     const faculties = [];
     let editIndex = null;
-
-    function goToSettings() {
-      window.location.href = "Settings.html";
-    }
+    let deleteIndex = null;
 
     function openModal(index = null) {
       document.getElementById("facultyModal").style.display = "flex";
@@ -487,19 +600,15 @@
 
       if (index !== null) {
         const faculty = faculties[index];
-        document.getElementById("facultyID").value = index + 1;
+        document.getElementById("facultyID").value = faculty.id;
         document.getElementById("facultyName").value = faculty.name;
         document.getElementById("facultyType").value = faculty.type;
-        document.getElementById("availDays").value = faculty.availDays;
-        document.getElementById("availTime").value = faculty.availTime;
         document.getElementById("facultySubjects").value = faculty.subjects;
         editIndex = index;
       } else {
         document.getElementById("facultyID").value = faculties.length + 1;
         document.getElementById("facultyName").value = "";
         document.getElementById("facultyType").selectedIndex = 0;
-        document.getElementById("availDays").selectedIndex = 0;
-        document.getElementById("availTime").selectedIndex = 0;
         document.getElementById("facultySubjects").value = "";
         editIndex = null;
       }
@@ -507,18 +616,16 @@
 
     function saveFaculty() {
       const id = document.getElementById("facultyID").value;
-      const name = document.getElementById("facultyName").value;
+      const name = document.getElementById("facultyName").value.trim();
       const type = document.getElementById("facultyType").value;
-      const availDays = document.getElementById("availDays").value;
-      const availTime = document.getElementById("availTime").value;
-      const subjects = document.getElementById("facultySubjects").value;
+      const subjects = document.getElementById("facultySubjects").value.trim();
 
-      if (!id || !name || !type || !availDays || !availTime || !subjects) {
+      if (!id || !name || !type || !subjects) {
         alert("Please fill in all fields");
         return;
       }
 
-      const facultyData = { id, name, type, availDays, availTime, subjects };
+      const facultyData = { id, name, type, subjects };
 
       if (editIndex !== null) {
         faculties[editIndex] = facultyData;
@@ -534,31 +641,30 @@
       document.getElementById("facultyModal").style.display = "none";
     }
 
-
-    function deleteFaculty(index) {
-      if (confirm("Are you sure you want to delete this faculty member?")) {
-        faculties.splice(index, 1);
-        renderFaculties();
-      }
-    }
-
     function renderFaculties() {
       const body = document.getElementById("facultysBody");
       body.innerHTML = "";
       faculties.forEach((f, i) => {
         body.innerHTML += `
           <tr>
-            <td>${i + 1}</td>
+            <td>${f.id}</td>
             <td>${f.name}</td>
             <td>${f.type}</td>
-            <td>${f.availDays}</td>
-            <td>${f.availTime}</td>
-
             <td>${f.subjects}</td>
             <td>
               <div class="action-buttons">
-                <button class="edit-btn" onclick="openModal(${i})">✏️ Edit</button>
-                <button class="delete-btn" onclick="deleteFaculty(${i})">🗑️ Delete</button>
+                <button class="edit-btn" onclick="openModal(${i})">
+                  <i class="fa-solid fa-pen"></i>
+                  <span>Edit</span>
+                </button>
+                <button class="delete-btn" onclick="deleteFaculty(${i})">
+                  <i class="fa-solid fa-trash"></i>
+                  <span>Delete</span>
+                </button>
+                <button class="preview-btn" onclick="previewFaculty(${i})">
+                  <i class="fa-solid fa-eye"></i>
+                  <span>View</span>
+                </button>
               </div>
             </td>
           </tr>
@@ -566,13 +672,113 @@
       });
     }
 
+    function deleteFaculty(index) {
+      document.getElementById("deleteModal").style.display = "flex";
+      deleteIndex = index;
+    }
 
-    // Sample seed data
-    faculties.push(
-      { id: "1", name: "Prof. Joana Cruz", type: "Full Time", availDays: "Tue, Thu", availTime: "5:30 PM - 8:30 PM", subjects: "AD-HCI 123" },
-      { id: "2", name: "Prof. Miguel Gatchalian", type: "Full Time", availDays: "Tue, Thu", availTime: "7:00 AM - 10:0 AM", subjects: "CT-WD 123" }
-    );
-    renderFaculties();
+    function closeDeleteModal() {
+      document.getElementById("deleteModal").style.display = "none";
+    }
+
+    function confirmDelete() {
+      if (deleteIndex !== null) {
+        faculties.splice(deleteIndex, 1);
+        renderFaculties();
+        closeDeleteModal();
+      }
+    }
+
+    function previewFaculty(index) {
+      const faculty = faculties[index];
+      document.getElementById("previewID").textContent = faculty.id;
+      document.getElementById("previewName").textContent = faculty.name;
+      document.getElementById("previewType").textContent = faculty.type;
+      document.getElementById("previewSubjects").textContent = faculty.subjects;
+      document.getElementById("previewModal").style.display = "flex";
+    }
+
+    function closePreview() {
+      document.getElementById("previewModal").style.display = "none";
+    }
+
+    function openImportModal() {
+      document.getElementById("importModal").style.display = "flex";
+      setImportStatusVisible(false);
+      clearImportFileInput();
+    }
+
+    function closeImportModal() {
+      document.getElementById("importModal").style.display = "none";
+      clearImportFileInput();
+    }
+
+    function clearImportFileInput() {
+      const fileInput = document.getElementById('importFileInput');
+      fileInput.value = '';
+    }
+
+    function setImportStatusVisible(visible) {
+      const status = document.getElementById('importStatus');
+      status.style.display = visible ? 'block' : 'none';
+    }
+
+    function importFacultyFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      setImportStatusVisible(true);
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const importedData = JSON.parse(e.target.result);
+          if (Array.isArray(importedData)) {
+            importedData.forEach(f => {
+              if (f.name && f.type && f.subjects) {
+                faculties.push({
+                  id: faculties.length + 1,
+                  name: f.name,
+                  type: f.type,
+                  subjects: f.subjects
+                });
+              }
+            });
+            renderFaculties();
+
+            setTimeout(() => {
+              closeImportModal();
+              setImportStatusVisible(false);
+            }, 2000);
+          } else {
+            alert('Invalid file format. Please upload a valid JSON file.');
+            setImportStatusVisible(false);
+          }
+        } catch (err) {
+          alert('Failed to read file. Make sure it\'s valid JSON.');
+          setImportStatusVisible(false);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const importFileInput = document.getElementById('importFileInput');
+      importFileInput.addEventListener('change', importFacultyFile);
+
+      faculties.push(
+        { id: "1", name: "Prof. Joana Cruz", type: "Full Time", subjects: "AD-HCI 123" },
+        { id: "2", name: "Prof. Miguel Gatchalian", type: "Full Time", subjects: "CT-WD 123" }
+      );
+
+      renderFaculties();
+
+      document.getElementById('closeImportModalBtn').addEventListener('click', closeImportModal);
+    });
+
+    function goToSettings() {
+      alert('Go to settings (not implemented).');
+    }
   </script>
 
 </body>
