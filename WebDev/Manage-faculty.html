@@ -99,7 +99,6 @@
 
     .top-right {
       position: absolute;
-      top: 40px;
       right: 40px;
       display: flex;
       align-items: center;
@@ -541,24 +540,11 @@
         </select>
 
         <label for="facultySubjects">Subject</label>
-        <input id="facultySubjects" placeholder="Enter Subjects" />
+        <input id="facultySubjects" placeholder="e.g. CC-CP2" />
 
         <div class="modal-actions">
           <button class="save-btn" onclick="saveFaculty()">Save</button>
           <button class="cancel-btn" onclick="closeModal()">Cancel</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="previewModal">
-      <div class="modal-content">
-        <h2>Faculty Preview</h2>
-        <p><strong>ID:</strong> <span id="previewID"></span></p>
-        <p><strong>Name:</strong> <span id="previewName"></span></p>
-        <p><strong>Type:</strong> <span id="previewType"></span></p>
-        <p><strong>Subjects:</strong> <span id="previewSubjects"></span></p>
-        <div class="modal-actions">
-          <button class="cancel-btn" onclick="closePreview()">Close</button>
         </div>
       </div>
     </div>
@@ -621,8 +607,16 @@
       const type = document.getElementById("facultyType").value;
       const subjects = document.getElementById("facultySubjects").value.trim();
 
+      // Check if all fields are filled
       if (!id || !name || !type || !subjects) {
         alert("Please fill in all fields");
+        return;
+      }
+
+      // Check for duplicate names
+      const nameExists = faculties.some(faculty => faculty.name.toLowerCase() === name.toLowerCase());
+      if (nameExists) {
+        alert("This name is already in use. Please choose a different name.");
         return;
       }
 
@@ -637,6 +631,7 @@
       renderFaculties();
       closeModal();
     }
+
 
     function closeModal() {
       document.getElementById("facultyModal").style.display = "none";
@@ -662,7 +657,8 @@
                   <i class="fa-solid fa-trash"></i>
                   <span>Delete</span>
                 </button>
-                <button class="preview-btn" onclick="previewFaculty(${i})">
+                <button class="preview-btn" onclick="${f.name === 'Ms. Joy Ramirez' ? "window.location.href='Schedule-View2.html'" 
+                : f.name === 'Mr. Joshua Santiago' ? "window.location.href='Schedule-View.html'" : "goToSched()"}">
                   <i class="fa-solid fa-eye"></i>
                   <span>View</span>
                 </button>
@@ -672,6 +668,7 @@
         `;
       });
     }
+
 
     function deleteFaculty(index) {
       document.getElementById("deleteModal").style.display = "flex";
@@ -688,19 +685,6 @@
         renderFaculties();
         closeDeleteModal();
       }
-    }
-
-    function previewFaculty(index) {
-      const faculty = faculties[index];
-      document.getElementById("previewID").textContent = faculty.id;
-      document.getElementById("previewName").textContent = faculty.name;
-      document.getElementById("previewType").textContent = faculty.type;
-      document.getElementById("previewSubjects").textContent = faculty.subjects;
-      document.getElementById("previewModal").style.display = "flex";
-    }
-
-    function closePreview() {
-      document.getElementById("previewModal").style.display = "none";
     }
 
     function openImportModal() {
@@ -780,6 +764,7 @@
     function goToSettings() {
       window.location.href = "Settings.html";
     }
+
   </script>
 
 </body>
