@@ -103,14 +103,20 @@
       margin-top: 30px;
     }
 
-    .quick-actions, .status-overview {
+    .quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .status-overview {
       display: flex;
       flex-wrap: wrap;
       gap: 30px;
     }
 
     .quick-actions button {
-      padding: 17px 60px;
+      padding: 17px 65px;
       margin-right: 20px;
       margin-top: 20px;
       border-radius: 10px;
@@ -147,7 +153,7 @@
 
     .status-overview .box .number {
       font-size: 30px;
-      font-weight: bold;
+      font-weight: 600;
       margin-top: 30px;
       margin-left: 10px;
     }
@@ -219,13 +225,13 @@
       
       <ul>
         <li><a href="Dashboard.html"><button class="active"><i class="fas fa-home"></i> Dashboard</button></a></li>
-        <li><a href="Manage-faculty.html"><button><i class="fa-solid fa-user"></i> Manage Faculty</button></a></li>
-        <li><a href="manage-students.html"><button><i class="fa-solid fa-users"></i> Manage Student</button></a></li>
-        <li><a href="Manage-rooms.html"><button><i class="fas fa-chalkboard-teacher"></i> Manage Room</button></a></li>
-        <li><a href="Manage-subjects.html"><button><i class="fa-solid fa-book-open"></i> Manage Subject</button></a></li>
-        <li><a href="Class-Scheduling-System-Login.html"><button><i class="fas fa-power-off"></i> Logout</button></a></li>
+        <li><a href="Manage-Faculty.html"><button><i class="fa-solid fa-user"></i> Manage Faculty</button></a></li>
+        <li><a href="manage-Sections.html"><button><i class="fas fa-columns"></i> Manage Sections</button></a></li>
+        <li><a href="Manage-Rooms.html"><button><i class="fas fa-chalkboard-teacher"></i> Manage Room</button></a></li>
+        <li><a href="Manage-Subjects.html"><button><i class="fa-solid fa-book-open"></i> Manage Subject</button></a></li>
+        <li><a href="User-Management.html"><button><i class="fas fa-user-friends"></i> User Management</button></a></li>
+        <li><a href="Log-In.html"><button><i class="fas fa-power-off"></i> Logout</button></a></li>
   </nav>
-
 
   <div class="main">
     <h1>Welcome to the Class Scheduling System</h1>
@@ -233,9 +239,11 @@
     <div class="section">
       <strong>Quick Actions</strong>
       <div class="quick-actions">
-        <button onclick="alert('Feature Coming Soon')">Create a Schedule</button>
-        <button onclick="alert('Feature Coming Soon')">View Faculty Schedule</button>
-        <button onclick="alert('Feature Coming Soon')">View Room Availability</button>
+        <button onclick="window.location.href='Create-a-Schedule.html'">Create a Schedule</button>
+        <button onclick="window.location.href='Create-a-Schedule.html'">View Faculty Schedule</button>
+        <button onclick="window.location.href='Create-a-Schedule.html'">View Room Availability</button>
+
+        <!--<button onclick="alert('Feature Coming Soon')"></button>-->
       </div>
     </div>
 
@@ -312,11 +320,6 @@
   <script>
     function goTo(page) {
       window.location.href = page;
-    }
-
-    function logout() {
-      alert("Logging out...");
-      location.href = 'Class-Scheduling-System-Login.html'; 
     }
   </script>
 </body>
