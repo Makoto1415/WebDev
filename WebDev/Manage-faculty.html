@@ -86,46 +86,27 @@
 
     .main {
       margin-left: 220px;
+      margin-top: 20px;
       padding: 20px;
       color: white;
       flex-grow: 1;
     }
 
-    .page-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .page-header h1 {
-      margin-top: 0;      
-      padding-top: 0;      
-      position: relative; 
-      top: -80px;           
+    .main h1 {
+      font-size: 36px;
+      top: 30px;
     }
 
     .top-right {
+      position: absolute;
+      top: 40px;
+      right: 40px;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
       gap: 15px;
       color: white;
-      padding-top: 40px;
       font-weight: 600;
       font-family: 'Poppins', sans-serif;
-      margin-bottom: 20px;
-    }
-
-    .add-subject-btn {
-      background: #D9D9D9;
-      color: black;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
     .notification {
@@ -141,7 +122,6 @@
       font-size: 18px;
       text-align: right;
       line-height: 1.1;
-      padding-top:40px;
     }
 
     .admin-name {
@@ -159,32 +139,52 @@
       cursor: pointer;
     }
 
+    .button-group {
+      display: flex;
+      justify-content: right;
+      gap: 10px;
+    }
+
+    .add-faculty-btn {
+      background: #D9D9D9;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-top: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
     table {
       width: 100%;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 10px;
-      color: white;
       border-spacing: 0;
+      color: white;
+      margin-top: 20px;
       table-layout: fixed;
     }
 
     th, td {
       padding: 20px 16px;
-      text-align: left;
+      text-align: center;
     }
 
     th {
-      font-size: 16px;
+      font-size: 18px;
       background: rgba(255, 255, 255, 0.15);
     }
 
     td {
-      font-size: 15px;
+      font-size: 16px;
       border-top: none; 
     }
 
     .action-buttons {
       display: flex;
+      justify-content: center;
       gap: 5px;
     }
 
@@ -196,10 +196,15 @@
       font-size: 13px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      align-items: center; 
+      justify-content: center; 
       width: 60px;
       height: 50px;
+    }
+
+    i {
+      display: flex;
+      justify-content: center;
     }
 
     .edit-btn {
@@ -270,10 +275,10 @@
       background-color:#D9D9D9;
       margin-top: 0;
       margin-bottom: 20px;
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 600;
       color: #1a1a1a;
-      text-align: center;
+      text-align: left;
     }
 
     .modal-content label {
@@ -331,10 +336,6 @@
       font-weight: 600;
       cursor: pointer;
       transition: background 0.2s;
-    }
-
-    .action-buttons i {
-      margin-right: 10px;
     }
 
     .modal-actions .cancel-btn {
@@ -407,7 +408,7 @@
     .import-modal {
       background: #fff;
       color: #000;
-      padding: 20px 30px;
+      padding: 20px 40px;
       border-radius: 12px;
       width: 300px;
       text-align: left;
@@ -416,7 +417,7 @@
     }
 
     .import-modal h2 {
-      margin-top: 0;
+      margin-top: 10px;
       font-size: 20px;
       text-align: left;
     }
@@ -426,7 +427,7 @@
       border: 2px solid #333;
       border-bottom: 3px solid #333; /* thicker bottom border for "_____" effect */
       border-radius: 8px;
-      padding: 12px 10px;
+      padding: 10px 10px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -505,8 +506,8 @@
     <div class="page-header">
       <h1>Faculty</h1>
       <div class="button-group">
-        <button onclick="openModal()" class="add-subject-btn">+ Add Faculty</button>
-        <button onclick="openImportModal()" class="add-subject-btn">Import Files</button>
+        <button onclick="openModal()" class="add-faculty-btn">+ Add Faculty</button>
+        <button onclick="openImportModal()" class="add-faculty-btn"><i class="fas fa-file-import"></i> Import Files</button>
       </div>
     </div>
 
@@ -525,7 +526,7 @@
 
     <div id="facultyModal">
       <div class="modal-content">
-        <h2 id="modalTitle">Add Faculty</h2>
+        <h2 id="modalTitle">Add Faculty Member</h2>
 
         <input id="facultyID" type="hidden" />
 
@@ -539,8 +540,8 @@
           <option>Part Time</option>
         </select>
 
-        <label for="facultySubjects">Subject Code</label>
-        <input id="facultySubjects" placeholder="Enter Subject Code" />
+        <label for="facultySubjects">Subject</label>
+        <input id="facultySubjects" placeholder="Enter Subjects" />
 
         <div class="modal-actions">
           <button class="save-btn" onclick="saveFaculty()">Save</button>
@@ -596,7 +597,7 @@
 
     function openModal(index = null) {
       document.getElementById("facultyModal").style.display = "flex";
-      document.getElementById("modalTitle").textContent = index === null ? "Add Faculty" : "Edit Faculty";
+      document.getElementById("modalTitle").textContent = index === null ? "Add Faculty Member" : "Edit Faculty Member";
 
       if (index !== null) {
         const faculty = faculties[index];
@@ -767,8 +768,8 @@
       importFileInput.addEventListener('change', importFacultyFile);
 
       faculties.push(
-        { id: "1", name: "Prof. Joana Cruz", type: "Full Time", subjects: "AD-HCI 123" },
-        { id: "2", name: "Prof. Miguel Gatchalian", type: "Full Time", subjects: "CT-WD 123" }
+        { id: "1", name: "Mr. Joshua Santiago", type: "Full Time", subjects: "AD-HCI, CT-WD" },
+        { id: "2", name: "Ms. Joy Ramirez", type: "Part Time", subjects: "AD-HCI" }
       );
 
       renderFaculties();
@@ -777,7 +778,7 @@
     });
 
     function goToSettings() {
-      alert('Go to settings (not implemented).');
+      window.location.href = "Settings.html";
     }
   </script>
 
