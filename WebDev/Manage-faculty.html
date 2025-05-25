@@ -233,7 +233,7 @@
       color: darkblue;
     }
 
-    #facultyModal, #previewModal, #deleteModal, #importModal {
+    #facultyModal, #deleteModal, #importModal {
       display: none;
       position: fixed;
       z-index: 1000;
@@ -355,6 +355,21 @@
 
     .modal-actions .save-btn:hover {
       background-color: #218838;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(1px);
+      -webkit-backdrop-filter: blur(1px);
     }
 
     .delete-modal {
@@ -488,7 +503,7 @@
       <li><a href="Manage-Rooms.html"><button><i class="fas fa-chalkboard-teacher"></i> Manage Room</button></a></li>
       <li><a href="Manage-Subjects.html"><button><i class="fa-solid fa-book-open"></i> Manage Subject</button></a></li>
       <li><a href="User  -Management.html"><button><i class="fas fa-user-friends"></i> User Management</button></a></li>
-      <li><a href="Login.html"><button><i class="fas fa-power-off"></i> Logout</button></a></li>
+      <li><a href="Log-In.html"><button><i class="fas fa-power-off"></i> Logout</button></a></li>
     </ul>
   </nav>
 
@@ -613,24 +628,27 @@
         return;
       }
 
-      // Check for duplicate names
-      const nameExists = faculties.some(faculty => faculty.name.toLowerCase() === name.toLowerCase());
-      if (nameExists) {
-        alert("This name is already in use. Please choose a different name.");
-        return;
+      // Check for duplicate names only if adding a new faculty member
+      if (editIndex === null) {
+        const nameExists = faculties.some(faculty => faculty.name.toLowerCase() === name.toLowerCase());
+        if (nameExists) {
+          alert("This name is already in use. Please choose a different name.");
+          return;
+        }
       }
 
       const facultyData = { id, name, type, subjects };
 
       if (editIndex !== null) {
-        faculties[editIndex] = facultyData;
+        faculties[editIndex] = facultyData; // Update existing faculty
       } else {
-        faculties.push(facultyData);
+        faculties.push(facultyData); // Add new faculty
       }
 
       renderFaculties();
       closeModal();
     }
+
 
 
     function closeModal() {
