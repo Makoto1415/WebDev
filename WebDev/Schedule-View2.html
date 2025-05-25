@@ -72,6 +72,18 @@
       font-weight: bold;
     }
 
+    nav ul li button img {
+      transition: filter 0.3s ease;
+    }
+
+    nav ul li button:hover img {
+      filter: brightness(0) invert(1);
+    }
+
+    nav ul li:last-child {
+      margin-top: auto;
+    }
+
     .main {
       margin-left: 220px;
       margin-top: 20px;
@@ -239,9 +251,31 @@
       text-align: center;
     }
 
+    /* Make text white inside color-coded cells */
+    td.orange, td.blue, td.green {
+      color: white;
+    }
+
+    input {
+      width: 100%; 
+      border: none; 
+      background: rgba(0, 0, 0, 0.2); 
+      color: white; 
+      font-size: 9px;
+      caret-color: white;
+    }
+
+    .edited {
+      background-color: #d1e7dd;
+    } 
+
+    .editing {
+      outline: 2px dashed darkgreen;
+    }
+
     .orange { background-color: #ef6c00; }
     .blue { background-color: #1565c0; }
-    .green { background-color: #00c04b }
+    .green { background-color: #008000 }
   </style>
 </head>
 <body>
@@ -257,14 +291,14 @@
       <li><a href="Manage-Rooms.html"><button><i class="fas fa-chalkboard-teacher"></i> Manage Room</button></a></li>
       <li><a href="Manage-Subjects.html"><button><i class="fa-solid fa-book-open"></i> Manage Subject</button></a></li>
       <li><a href="User -Management.html"><button><i class="fas fa-user-friends"></i> User Management</button></a></li>
-      <li><a href="Login.html"><button><i class="fas fa-power-off"></i> Logout</button></a></li>
+      <li><a href="Log-In.html"><button><i class="fas fa-power-off"></i> Logout</button></a></li>
     </ul>
   </nav>
 
   <div class="main">
     <div class="top-right">
       <div class="notification"><i class="fas fa-bell"></i></div>
-      <div class="admininfo">
+      <div class="admin-info">
         <div class="admin-name">Maureen Dela Cruz</div>
         <div class="admin-role">VVPA</div>
       </div>
@@ -274,48 +308,179 @@
     <div class="page-header">
       <h1>Faculty</h1>
       <div class="schedule-header-top">
-      <button class="clear-back-button" onclick="goBack()">
-        <i class="fas fa-arrow-left"></i> Back
-      </button>
-      <div class="action-buttons">
-        <button class="add-faculty-btn"><i class="fas fa-download"></i> <span>Download</span></button>
-        <button class="add-faculty-btn"><i class="fas fa-print"></i> <span>Print</span></button>
-        <button class="add-faculty-btn"><i class="fas fa-calendar"></i> <span>Edit Schedule</span></button>
+        <button class="clear-back-button" onclick="goBack()">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <div class="action-buttons">
+          <button class="add-faculty-btn" onclick="downloadSchedule()"><i class="fas fa-download"></i> <span>Download</span></button>
+          <button class="add-faculty-btn" onclick="printSchedule()"><i class="fas fa-print"></i> <span>Print</span></button>
+          <button class="add-faculty-btn" onclick="editSchedule()"><i class="fas fa-calendar"></i> <span>Edit Schedule</span></button>
+        </div>
       </div>
-    </div>
-        <div class="schedule-header">
-          <h2>Ms. Joy Ramirez</h2>
+      <div class="schedule-header">
+        <h2>Ms. Joy Ramirez</h2>
       </div>
     </div>
 
-      <div class="timetable">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Monday</th>
-              <th>Tuesday</th>
-              <th>Wednesday</th>
-              <th>Thursday</th>
-              <th>Friday</th>
-              <th>Saturday</th>
-            </tr>
-          </thead>
-          <tbody id="timetableBody">
-            <!-- Time slots and classes will be inserted dynamically -->
-          </tbody>
-        </table>
+    <div class="timetable">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+          </tr>
+        </thead>
+        <tbody id="timetableBody">
+          
+        </tbody>
+      </table>
     </div>
   </div>
 
   <script>
-
     function goTo(page) {
       window.location.href = page;
     }
 
     function goBack() {
       location.href = 'Manage-Faculty.html'; 
+    }
+
+    function downloadSchedule() {
+        const scheduleContent = document.querySelector('.timetable').outerHTML;
+        const styles = `
+            <style>
+                body { font-family: Arial, sans-serif; }
+                table { width: 100%; border-collapse: collapse; }
+                th, td { border: 1px solid #ccc; padding: 5px; text-align: center; }
+                th { background-color: #f2b905; color: black; }
+                .orange { background-color: #ef6c00; color: white; }
+                .blue { background-color: #1565c0; color: white; }
+                .green { background-color: #008000; color: white; }
+            </style>
+        `;
+        const blob = new Blob([styles + scheduleContent], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'schedule.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
+    function printSchedule() {
+        const printWindow = window.open('', '_blank');
+        const styles = `
+            <style>
+                body { 
+                  font-family: Arial, sans-serif; 
+                }
+
+                table {
+                  width: 100%;
+                  border-collapse: collapse; 
+                }
+
+                th, td {
+                  border: 1px solid #ccc;
+                  padding: 5px;
+                  text-align: center;
+                }
+
+                th {
+                  background-color: #f2b905;
+                  color: black; 
+                }
+
+                .orange {
+                  background-color: #ef6c00;
+                  color: white;
+                }
+
+                .blue {
+                  background-color: #1565c0;
+                  color: white;
+                }
+
+                .green {
+                  background-color: #008000;
+                  color: white;
+                }
+            </style>
+        `;
+        printWindow.document.write('<html><head><title>Print Schedule</title>' + styles + '</head><body>');
+        printWindow.document.write(document.querySelector('.timetable').outerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+
+    let isEditing = false;
+
+    function editSchedule() {
+        const editButton = document.querySelector('.add-faculty-btn:nth-child(3)');
+        const cells = document.querySelectorAll('tbody td');
+
+        isEditing = !isEditing; // Toggle editing mode
+
+        if (isEditing) {
+            editButton.style.backgroundColor = 'darkgreen';
+            editButton.style.color = 'white';
+
+            cells.forEach(cell => {
+                // Skip the first column which is the time labels (has bold style)
+                if(cell.cellIndex === 0) return;
+                
+                cell.classList.add('editing');
+                cell.onclick = function() {
+                    if (!this.querySelector('input')) { // Prevent multiple inputs
+                        const currentText = this.innerText;
+                        const colorClasses = ['orange', 'blue', 'green'];
+                        const currentColorClass = colorClasses.find(c => this.classList.contains(c));
+
+                        const input = document.createElement('input');
+                        input.value = currentText;
+                        this.innerHTML = '';
+                        this.appendChild(input);
+                        input.focus();
+
+                        input.onblur = () => {
+                            this.innerHTML = input.value || currentText; // Revert if empty
+                            if (input.value) {
+                                this.classList.add('edited');
+                            }
+                            if(currentColorClass) this.classList.add(currentColorClass);
+                            this.classList.remove('editing');
+                        };
+
+                        input.onkeypress = (e) => {
+                            if (e.key === 'Enter') {
+                                this.innerHTML = input.value || currentText; // Revert if empty
+                                if (input.value) {
+                                    this.classList.add('edited');
+                                }
+                                if(currentColorClass) this.classList.add(currentColorClass);
+                                this.classList.remove('editing');
+                            }
+                        };
+                    }
+                };
+            });
+        } else {
+            editButton.style.backgroundColor = '';
+            editButton.style.color = '';
+            cells.forEach(cell => {
+                if(cell.cellIndex === 0) return;
+                cell.classList.remove('editing');
+                cell.onclick = null;
+            });
+        }
     }
 
     const scheduleData = [
@@ -325,7 +490,7 @@
     ];
 
     const startTime = 7;
-    const endTime = 20.5;
+    const endTime = 20.5; // 8:30 PM
     const timeSlots = [];
 
     for (let hour = startTime; hour < endTime; hour += 0.5) {
@@ -361,6 +526,7 @@
           block.className = `schedule-block ${match.color}`;
           block.textContent = match.subject;
           cell.appendChild(block);
+          cell.classList.add(match.color); // add color class to cell itself for editing purposes
         }
         row.appendChild(cell);
       });
@@ -370,3 +536,4 @@
   </script>
 </body>
 </html>
+
